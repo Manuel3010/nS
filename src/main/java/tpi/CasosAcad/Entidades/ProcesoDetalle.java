@@ -34,7 +34,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "ProcesoDetalle.findAll", query = "SELECT p FROM ProcesoDetalle p")
     , @NamedQuery(name = "ProcesoDetalle.findByIdProcesoDetalle", query = "SELECT p FROM ProcesoDetalle p WHERE p.idProcesoDetalle = :idProcesoDetalle")
-    , @NamedQuery(name = "ProcesoDetalle.findByResponsable", query = "SELECT p FROM ProcesoDetalle p WHERE p.responsable = :responsable")})
+    , @NamedQuery(name = "ProcesoDetalle.findByResponsable", query = "SELECT p FROM ProcesoDetalle p WHERE p.responsable = :responsable")
+, @NamedQuery(name = "ProcesoDetalle.findByProceso", query = "SELECT p FROM ProcesoDetalle p WHERE p.idProceso.idProceso = :idProceso")})
 public class ProcesoDetalle implements Serializable {
 
     private static final long serialVersionUID = 1L;
