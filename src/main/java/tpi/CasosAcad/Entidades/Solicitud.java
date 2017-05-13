@@ -6,23 +6,18 @@
 package tpi.CasosAcad.Entidades;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -35,7 +30,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Solicitud.findAll", query = "SELECT s FROM Solicitud s")
     , @NamedQuery(name = "Solicitud.findByIdSolicitud", query = "SELECT s FROM Solicitud s WHERE s.idSolicitud = :idSolicitud")
     , @NamedQuery(name = "Solicitud.findByFecha", query = "SELECT s FROM Solicitud s WHERE s.fecha = :fecha")
-    , @NamedQuery(name = "Solicitud.findBySolicitante", query = "SELECT s FROM Solicitud s WHERE s.solicitante = :solicitante")})
+    , @NamedQuery(name = "Solicitud.findBySolicitante", query = "SELECT s FROM Solicitud s WHERE s.solicitante = :solicitante")
+    , @NamedQuery(name = "Solicitud.findByPendiente", query = "SELECT s FROM Solicitud s WHERE s.pendiente = :pendiente")})
 public class Solicitud implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,8 +50,10 @@ public class Solicitud implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "Solicitante")
     private String solicitante;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSolicitud", fetch = FetchType.EAGER)
-    private List<Caso> casoList;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "pendiente")
+    private boolean pendiente;
 
     public Solicitud() {
     }
@@ -64,10 +62,11 @@ public class Solicitud implements Serializable {
         this.idSolicitud = idSolicitud;
     }
 
-    public Solicitud(Integer idSolicitud, String fecha, String solicitante) {
+    public Solicitud(Integer idSolicitud, String fecha, String solicitante, boolean pendiente) {
         this.idSolicitud = idSolicitud;
         this.fecha = fecha;
         this.solicitante = solicitante;
+        this.pendiente = pendiente;
     }
 
     public Integer getIdSolicitud() {
@@ -94,13 +93,12 @@ public class Solicitud implements Serializable {
         this.solicitante = solicitante;
     }
 
-    @XmlTransient
-    public List<Caso> getCasoList() {
-        return casoList;
+    public boolean getPendiente() {
+        return pendiente;
     }
 
-    public void setCasoList(List<Caso> casoList) {
-        this.casoList = casoList;
+    public void setPendiente(boolean pendiente) {
+        this.pendiente = pendiente;
     }
 
     @Override
